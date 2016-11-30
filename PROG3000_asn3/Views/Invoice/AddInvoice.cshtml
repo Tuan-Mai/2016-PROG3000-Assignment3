@@ -1,0 +1,77 @@
+﻿@using PROG3000_asn3.Models
+@model Invoice
+
+@{
+            Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddInvoice</title>
+</head>
+<body style="text-align:center">
+    Student Name: Tuan Mai <br />
+    Student Number: 991385218 <br />
+    <br />
+    <hr />
+    <br />
+
+    <div>
+        @{
+            var user = Session["user"] as User;
+
+            @:<h1>Welcome @user.Username !</h1>
+
+
+
+
+            <br />
+                    <br />
+                    <hr />
+                    <br />
+
+            using (Html.BeginForm())
+            {
+                @:<h2>Please add your invoice</h2>
+
+                @Html.Label("Client Name: ");
+                @Html.TextBox("clientName")
+                @:<br /><br />
+
+                @Html.Label("Client Address: ");
+                @Html.TextBox("clientAddress");
+                @:<br /><br />
+
+                @Html.Label("Date of Shipment: ");
+                @Html.EditorFor(Model => Model.DateOfShipment, new { htmlAttributes = new { @class = "datepicker" } });
+                @:<br /><br />
+
+                @Html.Label("Payment Due Date: ");
+                @Html.EditorFor(Model => Model.PaymentDueDate, new { htmlAttributes = new { @class = "datepicker" } });
+                @:<br /><br />
+
+                @Html.Label("Product Name: ");
+                @Html.TextBox("productName");
+                @:<br /><br />
+
+                @Html.Label("Product Quantity: ");
+                @Html.EditorFor(Model => Model.ProductQuantity, new { @type = "number", @min = "0" });
+                @:<br /><br />
+
+                @Html.Label("Unit Price: ");
+                @Html.EditorFor(Model => Model.UnitPrice, new { @type = "number", @min = "0" });
+                @:<br /><br />
+
+                @Html.Label("Currency Type: ");
+                @Html.EnumDropDownListFor(Model => Model.Currency);
+
+                //@:<br /><br /><input type="submit" value="Submit" />
+                @:<br /><br /><input type="submit" value="Submit" formaction="@Url.Action("AddedInvoice","Invoice")" />
+            }
+        }
+    </div>
+</body>
+</html>

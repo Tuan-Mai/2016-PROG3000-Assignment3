@@ -1,0 +1,98 @@
+﻿@using PROG3000_asn3.Models
+
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body style="text-align:center">
+    Student Name: Tuan Mai <br />
+    Student Number: 991385218 <br />
+    <br />
+    <hr />
+    <br />
+
+    <div>
+        @{
+            var user = Session["user"] as User;
+
+            if ((user != null) && user.Login.Equals("Admin"))
+            {
+                @:<h1>Welcome @user.Username !</h1>
+
+
+                using (Html.BeginForm())
+                {
+                    @:<br /><br /><input type="submit" value="Review Receivables" formaction="@Url.Action("ReviewReceivables", "UserAccounts")" />
+                    @:<br /><br /><input type="submit" value="Manage Invoices" formaction="@Url.Action("ManageInvoice", "Invoice")" />
+                }
+            }
+
+            else if ((user != null) && user.Login.Equals("User"))
+            {
+                @:<h1>Welcome @user.Username !</h1>
+
+
+                using (Html.BeginForm())
+                {
+                    @:<br /><br /><input type="submit" value="Add Invoice" formaction="@Url.Action("AddInvoice", "Invoice")" />
+                }
+            }
+
+            else if (user == null)
+            {
+                using (Html.BeginForm())
+                {
+                    @Html.Label("Username: ");
+                    @Html.TextBox("username");
+                    @:<br /><br />
+                    @Html.Label("Password: ");
+                    @Html.Password("password");
+                    @:<br /><br /><input type="submit" value="User Login" formaction="@Url.Action("UserLogin", "UserAccounts")" />
+                    @: &nbsp; <input type="submit" value="Manager Login" formaction="@Url.Action("ManagerLogin", "UserAccounts")" />
+                }
+            }
+
+            else if ((user != null) && (user.Login.Equals("Failed")))
+            {
+                using (Html.BeginForm())
+                {
+                    @Html.Label("Username: ");
+                    @Html.TextBox("username");
+                    @:<br /><br />
+                    @Html.Label("Password: ");
+                    @Html.Password("password");
+                    @:<br /><br /><input type="submit" value="User Login" formaction="@Url.Action("UserLogin", "UserAccounts")" />
+                    @: &nbsp; <input type="submit" value="Manager Login" formaction="@Url.Action("ManagerLogin", "UserAccounts")" />
+                    <h3 style="color: red">Incorrect Credentials !</h3>
+                }
+            }
+
+            else if ((user != null) && (user.Login.Equals("NotManager")))
+            {
+                using (Html.BeginForm())
+                {
+                    @Html.Label("Username: ");
+                    @Html.TextBox("username");
+                    @:<br />
+                    @Html.Label("Password: ");
+                    @Html.Password("password");
+                    @:<br /><br /><input type="submit" value="User Login" formaction="@Url.Action("UserLogin", "UserAccounts")" />
+                    @: <input type="submit" value="Manager Login" formaction="@Url.Action("ManagerLogin", "UserAccounts")" />
+                    <h3 style="color: red">You do not have Manager Privileges !</h3>
+                }
+            }
+        }
+
+
+    </div>
+</body>
+
+</html>
